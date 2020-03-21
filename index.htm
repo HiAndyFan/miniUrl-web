@@ -2,31 +2,24 @@
 <html lang='zh-CN'>
 	<head>
 		<meta charset='utf-8'>
-		<link href='favicon.png' rel='icon'>
+		<link href='./resource/logo2.gif' rel='icon'>
 		<title>MiniURL</title>
-		<script type="text/javascript">
-			if(browser=="Microsoft Internet Explorer")
-			{
-				self.location="https://www.google.com/chrome/";
-			}
-		</script>
 		<link rel="stylesheet" href="./resource/animate.css">
-		<link rel="stylesheet" href="./resource/site-wrap.css">
+		<link rel="stylesheet" href="./site-wrap.css">
 		<script src="./resource/vue2.6.11.js"></script>
 		<script src="./resource/element-2.13.1.js"></script>
+		<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
 		<link rel="stylesheet" href="./resource/element-2.13.1.css">
 	</head>
 	<body>
 		<div id="content" class="flex-center">
 			<div id="main-area">
 				<div class="flex-center">
-					<img id="logo" class = "animated bounce" src="./resource/logo.gif" />
+					<img id="logo" class = "animated bounce" src="./resource/logo2.gif" />
 				</div>
 				<div id="div-input" class="flex-center">
-					<el-input v-model="input" placeholder="请输入网址" id="full-url"></el-input>
-					<el-button id ="btngo" type="primary">创建短链</el-button>
-					<form action="/" accept-charset="UTF-8" method="post">
-					</form>
+					<el-input v-model="input" placeholder="请输入网址" id="full-url" clearable></el-input>
+					<el-button id ="submit" @click="onSubmit" type="primary">创建短链</el-button>
 				</div>
 			</div>
 		</div>
@@ -43,11 +36,23 @@
 		</footer>
 	</body>
 	  <script>
-	    new Vue({
-	      el: '#div-input',
-	      data: function() {
-	        return { visible: false }
-	      }
-	    })
+		new Vue({
+			el: '#div-input',
+			data: {
+				input: '',
+			},
+			methods: {
+				onSubmit(){
+					this.$http.post('http://localhost:2333/createURL',{
+					// this.$http.post('http://127.0.0.1:555',{
+						session:"0",
+						original_url:this.$data.input,
+						resourse_id:"",
+						id_ttl:"7"
+					})
+					console.log(this.$data.input)
+				},
+			}
+		})
 	  </script>
 </html>

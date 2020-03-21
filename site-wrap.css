@@ -4,7 +4,7 @@ html, body {
 	padding: 0;
 }
 body{
-	background-image:url('./background.jpg');
+	background-image:url('./resource/background.jpg');
 	background-position:center top;
 	background-size:cover;
 	background-attachment: fixed;
@@ -21,16 +21,16 @@ body{
 	width: 700px;
 	height: 400px;
 	background: rgba(255, 255, 255, 0.5);
-	border-radius: 15px;
+	/* border-radius: 15px; */
 	box-shadow: 3px 3px 5px #666;
 	padding-bottom: 35px;
 	margin: 0 auto;
 }
 #logo{
-	width: 128px;
-	height: 128px;
-	margin: 50px;
-	margin-top: 110px;
+	width: 135px;
+	height: 135px;
+	margin: 40px;
+	margin-top: 100px;
 	border-radius: 5px;
 }
 #div-input{
@@ -40,19 +40,19 @@ body{
 }
 #full-url{
 	width: 420px;
-	font: 16px/18px arial;
+	font: 16px/28px arial;
 	line-height: 22px;
 	border-top-right-radius:0;
 	border-bottom-right-radius:0;
 }
-#btngo{
+#submit{
 	height: 40px;
 	background-color: #67c23a;
 	border: 0px;
 	border-bottom-left-radius:0;
 	border-top-left-radius:0;
 }
-#btngo:hover{
+#submit:hover{
 	background-color: #85ce61;
 }
 #site-footer{
