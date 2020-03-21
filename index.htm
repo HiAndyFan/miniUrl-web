@@ -4,27 +4,50 @@
 		<meta charset='utf-8'>
 		<link href='favicon.png' rel='icon'>
 		<title>MiniURL</title>
+		<script type="text/javascript">
+			if(browser=="Microsoft Internet Explorer")
+			{
+				self.location="https://www.google.com/chrome/";
+			}
+		</script>
 		<link rel="stylesheet" href="animate.css">
 		<link rel="stylesheet" href="site-wrap.css">
-		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="./vue2.6.11.js"></script>
+		<script src="./element-2.13.1.js"></script>
+		<link rel="stylesheet" href="./element-2.13.1.css">
 	</head>
 	<body>
-		<div class='wrap'>
-			<div id='main-block'>
-				<main role='main'>
-					<div id="div-form" class="animatedbounce">
-						<form action="/" accept-charset="UTF-8" method="post">
-								<input type="text" name="full-url">
-								<button class="animatedbounce" class='bt-blue'>
-									创建短链
-								</button>
-						</form>
-					</div>
-				</main>
+		<div id="content" class="flex-center">
+			<div id="main-area">
+				<div class="flex-center">
+					<img id="logo" class = "animated bounce" src="./logo.gif" />
+				</div>
+				<div id="div-input" class="flex-center">
+					<el-input v-model="input" placeholder="请输入网址" id="full-url"></el-input>
+					<el-button id ="btngo" type="primary">创建短链</el-button>
+					<form action="/" accept-charset="UTF-8" method="post">
+					</form>
+				</div>
 			</div>
 		</div>
+
+		<footer id='site-footer'>
+			<div class="footer-left">
+				<p class="lh"><a href="#">用户反馈</a></p>
+				<p class="lh"><a href="#">帮助</a></p>
+				<p class="lh"><a href="#">API</a></p>
+				<p class="lh"><a href="#">关于我们</a></p>
+				<p class="lh"><a href="#">感谢</a></p>
+				<p class="lh"><a href="#">粤ICP备15111xxx号-1</a></p>
+			</div>
+		</footer>
 	</body>
-			<footer id='site-footer'>
-				<p>foot</p>
-			</footer>
+	  <script>
+	    new Vue({
+	      el: '#div-input',
+	      data: function() {
+	        return { visible: false }
+	      }
+	    })
+	  </script>
 </html>
