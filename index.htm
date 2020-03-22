@@ -43,14 +43,13 @@
 			},
 			methods: {
 				onSubmit(){
-					this.$http.post('http://localhost:2333/createURL',{
+					this.$http.post('https://127.0.0.1:23333/createURL',{
 					// this.$http.post('http://127.0.0.1:555',{
 						session:"0",
 						original_url:this.$data.input,
 						resourse_id:"",
 						id_ttl:"7"
 					})
-					console.log(this.$data.input)
 				},
 			}
 		})
