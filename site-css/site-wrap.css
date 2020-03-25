@@ -4,15 +4,20 @@ html, body {
 	padding: 0;
 }
 body{
-	background-image:url('./resource/background.jpg');
+	background-image:url('../resource/background.jpg');
 	background-position:center top;
 	background-size:cover;
 	background-attachment: fixed;
 }
 .flex-center{
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: center;
+	/* justify-content: space-between; */
 	align-items: center;
+}
+.dis-block{
+	display: blcok;
 }
 #content{
 	min-height: 100%;
@@ -21,39 +26,40 @@ body{
 	width: 700px;
 	height: 400px;
 	background: rgba(255, 255, 255, 0.5);
-	/* border-radius: 15px; */
+	border-radius: 15px;
 	box-shadow: 3px 3px 5px #666;
 	padding-bottom: 35px;
 	margin: 0 auto;
 }
 #logo{
-	width: 135px;
-	height: 135px;
-	margin: 40px;
-	margin-top: 100px;
-	border-radius: 5px;
+	width: 180px;
+	height: 180px;
+	margin: 60px;
+	margin-top: 70px;
 }
 #div-input{
 	margin: 0 auto;
-	width: 500px;
+	width: 520px;
 	display: flex;
 }
 #full-url{
-	width: 420px;
-	font: 16px/28px arial;
-	line-height: 22px;
-	border-top-right-radius:0;
-	border-bottom-right-radius:0;
+	/* width: 420px; */
 }
-#submit{
+#ssubmit{
 	height: 40px;
 	background-color: #67c23a;
 	border: 0px;
 	border-bottom-left-radius:0;
 	border-top-left-radius:0;
 }
-#submit:hover{
+#ssubmit:hover{
 	background-color: #85ce61;
+}
+.smallinput{
+	max-width: 90px;
+}
+#more-opt{
+	display: block;
 }
 #site-footer{
 	min-width: 100%;

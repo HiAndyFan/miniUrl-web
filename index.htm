@@ -5,9 +5,11 @@
 		<link href='./resource/logo2.gif' rel='icon'>
 		<title>MiniURL</title>
 		<link rel="stylesheet" href="./resource/animate.css">
-		<link rel="stylesheet" href="./site-wrap.css">
+		<link rel="stylesheet" href="./site-css/site-wrap.css">
 		<script src="./resource/vue2.6.11.js"></script>
 		<script src="./resource/element-2.13.1.js"></script>
+		<script src="./resource/axios.min.js"></script>
+		<script src="./resource/qs.min.js"></script>
 		<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
 		<link rel="stylesheet" href="./resource/element-2.13.1.css">
 	</head>
@@ -18,8 +20,14 @@
 					<img id="logo" class = "animated bounce" src="./resource/logo2.gif" />
 				</div>
 				<div id="div-input" class="flex-center">
-					<el-input v-model="input" placeholder="请输入网址" id="full-url" clearable></el-input>
-					<el-button id ="submit" @click="onSubmit" type="primary">创建短链</el-button>
+					<el-input placeholder="请输入网址" 
+						v-model="input"
+						id="full-url"
+						clearable
+						autofocus>
+						<el-button type="primary" slot="append" id ="submit" @click="onSubmit" > 创建短链</el-button>
+					</el-input>
+					<el-input v-model="ttl" label="生命周期" maxlength=2></el-input>
 				</div>
 			</div>
 		</div>
@@ -35,7 +43,10 @@
 			</div>
 		</footer>
 	</body>
-	  <script>
+	<script>
+		Vue.prototype.$axios = axios;
+		Vue.prototype.$qs = Qs;
+		Vue.prototype.$host = 'http://127.0.0.1:23333';
 		new Vue({
 			el: '#div-input',
 			data: {
@@ -43,15 +54,27 @@
 			},
 			methods: {
 				onSubmit(){
-					this.$http.post('https://127.0.0.1:23333/createURL',{
-					// this.$http.post('http://127.0.0.1:555',{
+					var that=this;
+					this.$axios.post(this.$host+'/createURL',this.$qs.stringify({
 						session:"0",
 						original_url:this.$data.input,
 						resourse_id:"",
 						id_ttl:"7"
-					})
+						}))
+						.then(function (response) {
+							that.$data.input = response.data.data.result_url;
+						})
+						.catch(function (error) {
+							console.log(error);
+						});
 				},
 			}
+		});
+		new Vue({
+			el: '#more-opt',
+			data: {
+				
+			},
 		})
-	  </script>
+	</script>
 </html>
