@@ -4,7 +4,7 @@ html, body {
 	padding: 0;
 }
 body{
-	background-image:url('../resource/background.jpg');
+	background-image:url('./background.jpg');
 	background-position:center top;
 	background-size:cover;
 	background-attachment: fixed;
@@ -55,11 +55,20 @@ body{
 #ssubmit:hover{
 	background-color: #85ce61;
 }
+
 .smallinput{
-	max-width: 90px;
+	max-width: 50px;
 }
-#more-opt{
-	display: block;
+.mininput{
+	max-width: 80px;
+}
+.more-opt{
+	padding-left: 70px;
+}
+.el-form-item__label{
+	margin-top: 10px;
+	padding-left: -30px;
+	margin-right: 30px;
 }
 #site-footer{
 	min-width: 100%;
