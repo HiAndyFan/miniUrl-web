@@ -67,10 +67,24 @@ body{
 }
 #div-input{
 	margin: 0 auto;
-	width: 520px;
+	width: 80%;
 	display: flex;
+  flex-wrap: nowrap;
 }
-
+#full-url{
+  border-bottom-right-radius:0;
+  border-top-right-radius:0;
+}
+#submit{
+  height: 40px;
+  /* background-color: #67c23a; */
+  border: 0px;
+  border-bottom-left-radius:0;
+  border-top-left-radius:0;
+}
+#submit:hover{
+  /* background-color: #85ce61; */
+}
 .smallinput{
 	max-width: 50px;
 }

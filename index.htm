@@ -2,7 +2,7 @@
 <html lang='zh-CN'>
   <head>
     <meta charset='utf-8'>
-    <link href='./resource/logo2.gif' rel='icon'>
+    <link href='./site-css/logo2.gif' rel='icon'>
     <title>MiniURL</title>
 <!--    <link rel="stylesheet" href="./resource/animate.css">
     <script src="./resource/vue2.6.11.js"></script>
@@ -14,12 +14,11 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
     
     <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.common.dev.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
     <script src="https://cdn.bootcss.com/element-ui/2.13.0/index.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdn.bootcss.com/qs/6.9.1/qs.min.js"></script>
     <link href="https://cdn.bootcss.com/element-ui/2.13.0/theme-chalk/index.css" rel="stylesheet">
-    
     <link rel="stylesheet" href="./site-css/site-wrap.css">
   </head>
   <body>
@@ -61,10 +60,11 @@
           <el-input placeholder="请输入网址" 
             v-model="input"
             id="full-url"
+            @keyup.enter.native = 'onSubmit'
             clearable
             autofocus>
-            <el-button type="primary" slot="append" id ="submit" @click="onSubmit" > 创建短链</el-button>
           </el-input>
+          <el-button type="primary" slot="append" id ="submit" @click="onSubmit" > 创建短链</el-button>
         </div>
         <div class="more-opt">
           <label class="el-form-item__label">自定义短码
@@ -105,7 +105,7 @@
       },
       methods: {
         onSubmit(){
-          if(this.$data.input.indexOf('.') == -1){
+          if(this.$data.input.length !=0 & this.$data.input.indexOf('.') == -1){
             console.log();
             self.location.href="http://baidu.com/s?wd="+this.$data.input
             return;
@@ -144,14 +144,10 @@
           dialogLoginVisible: false,
           formLabelWidth: '80px',
           form: {
-            // username: '',
-            // mail: '',
-            // password: '',
-            // confirm: '',
-            username: 'admnin',
-            mail: 'aa@bb.cc',
-            password: '123456',
-            confirm: '123456',
+            username: '',
+            mail: '',
+            password: '',
+            confirm: '',
           },
           rules: {
             username: [
