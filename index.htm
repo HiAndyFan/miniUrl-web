@@ -1,144 +1,188 @@
 <!DOCTYPE html>
 <html lang='zh-CN'>
-	<head>
-		<meta charset='utf-8'>
-		<link href='./resource/logo2.gif' rel='icon'>
-		<title>MiniURL</title>
-		<link rel="stylesheet" href="./resource/animate.css">
-		<script src="./resource/vue2.6.11.js"></script>
-		<script src="./resource/element-2.13.1.js"></script>
-		<script src="./resource/axios.min.js"></script>
-		<script src="./resource/qs.min.js"></script>
-		<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
-		<!-- <link rel="stylesheet" href="./resource/element-2.13.1.css"> -->
-		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-		<link rel="stylesheet" href="./site-css/site-wrap.css">
-	</head>
-	<body>
-		<div class="header-container">
-			<div id ="site-header">
-				<li type=none>
-					<a  class="header-a" href="#" @click="dialogLoginVisible = true">登陆</a>
-					<a  class="header-a" href="#" @click="dialogRegisterVisible = true">注册</a>
-				</li>
-			</div>
-			<el-dialog title="注册" :visible.sync="dialogRegisterVisible"
-				width="380px" center>
-			  <el-form :model="form" :rules="rules" label-position="left" :inline="true">
-				<el-form-item label="用户名" :label-width="formLabelWidth" prop="username">
-					<el-input v-model="form.username" autocomplete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="邮箱" :label-width="formLabelWidth" prop="mail">
-					<el-input v-model="form.mail" autocomplete="off"></el-input>
-				</el-form-item>
-				<el-form-item type="password" label="密码" :label-width="formLabelWidth" prop="password">
-					<el-input v-model="form.password" autocomplete="off"></el-input>
-				</el-form-item>
-				<el-form-item type="password" label="确认密码" :label-width="formLabelWidth" prop="confirm">
-					<el-input v-model="form.confirm" autocomplete="off"></el-input>
-				</el-form-item>
-			  </el-form>
-			  <div slot="footer" class="dialog-footer">
-				<el-button @click="dialogRegisterVisible = false">取 消</el-button>
-				<el-button type="primary" @click="dialogRegisterVisible = false">注 册</el-button>
-			  </div>
-			</el-dialog>
-		</div>
-		<div id="content" class="flex-center">
-			<div id="main-area">
-				<div class="flex-center">
-					<img id="logo" class = "animated bounce" src="./site-css/logo2.gif" />
-				</div>
-				<div id="div-input" class="flex-center">
-					<el-input placeholder="请输入网址" 
-						v-model="input"
-						id="full-url"
-						clearable
-						autofocus>
-						<el-button type="primary" slot="append" id ="submit" @click="onSubmit" > 创建短链</el-button>
-					</el-input>
-				</div>
-				<div class="more-opt">
-					<label class="el-form-item__label">自定义短码
-						<el-input id="te_input" class="midinput" v-model="cusID" placeholder="xxxxx"></el-input>
-					</label>
-						<label class="el-form-item__label">生命周期
-							<el-input id="te_input" class="smallinput" v-model="ttl"></el-input>天
-						</label>
-				</div>
-			</div>
-		</div>
+  <head>
+    <meta charset='utf-8'>
+    <link href='./resource/logo2.gif' rel='icon'>
+    <title>MiniURL</title>
+<!--    <link rel="stylesheet" href="./resource/animate.css">
+    <script src="./resource/vue2.6.11.js"></script>
+    <script src="./resource/element-2.13.1.js"></script>
+    <script src="./resource/axios.min.js"></script>
+    <script src="./resource/qs.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <link rel="stylesheet" href="./resource/element-2.13.1.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
+    
+    <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.common.dev.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/2.13.0/index.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/qs/6.9.1/qs.min.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/2.13.0/theme-chalk/index.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="./site-css/site-wrap.css">
+  </head>
+  <body>
+    <div class="header-container">
+      <div id ="site-header">
+        <li type=none>
+          <a  class="header-a" href="#" @click="dialogLoginVisible = true">登陆</a>
+          <a  class="header-a" href="#" @click="dialogRegisterVisible = true">注册</a>
+        </li>
+      </div>
+      <el-dialog title="注册" :visible.sync="dialogRegisterVisible"
+        width="380px" center>
+        <el-form :model="form" :rules="rules" label-position="left" :inline="true">
+        <el-form-item label="用户名" :label-width="formLabelWidth" prop="username">
+          <el-input v-model="form.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" :label-width="formLabelWidth" prop="mail">
+          <el-input v-model="form.mail" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
+          <el-input type="password" v-model="form.password" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" :label-width="formLabelWidth" prop="confirm">
+          <el-input type="password" v-model="form.confirm" autocomplete="off"></el-input>
+        </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogRegisterVisible = false">取 消</el-button>
+        <el-button type="primary" @click="resister">注 册</el-button>
+        </div>
+      </el-dialog>
+    </div>
+    <div id="content" class="flex-center">
+      <div id="main-area">
+        <div class="flex-center">
+          <img id="logo" class = "animated bounce" src="./site-css/logo2.gif" />
+        </div>
+        <div id="div-input" class="flex-center">
+          <el-input placeholder="请输入网址" 
+            v-model="input"
+            id="full-url"
+            clearable
+            autofocus>
+            <el-button type="primary" slot="append" id ="submit" @click="onSubmit" > 创建短链</el-button>
+          </el-input>
+        </div>
+        <div class="more-opt">
+          <label class="el-form-item__label">自定义短码
+            <el-input id="te_input" class="midinput" v-model="cusID" placeholder="xxxxx"></el-input>
+          </label>
+            <label class="el-form-item__label">生命周期
+              <el-input id="te_input" class="smallinput" v-model="ttl"></el-input>天
+            </label>
+        </div>
+      </div>
+    </div>
 
-		<footer id='site-footer'>
-			<div class="footer-left">
-				<p class="lh"><a href="#">用户反馈</a></p>
-				<p class="lh"><a href="#">帮助</a></p>
-				<p class="lh"><a href="#">API</a></p>
-				<p class="lh"><a href="#">关于我们</a></p>
-				<p class="lh"><a href="#">感谢</a></p>
-				<p class="lh"><a href="#">粤ICP备15111xxx号-1</a></p>
-			</div>
-		</footer>
-	</body>
-	<script>
-		Vue.prototype.$axios = axios;
-		Vue.prototype.$qs = Qs;
-		Vue.prototype.$host = 'http://127.0.0.1:23333';
-		new Vue({
-			el :'.header-container',
-			data: {
-				dialogRegisterVisible: true,
-				dialogLoginVisible: false,
-				formLabelWidth: '80px',
-				form: {
-				  username: '',
-				  mail: '',
-				  password: '',
-				  confirm: '',
-				},
-				rules: {
-				  username: [
-					{ required: true, message: '请输入用户名', trigger: 'blur' },
-					{ min: 1, max: 6, message: '长度在 6 个字符之内', trigger: 'blur' }
-				  ],
-				  mail: [
-					{ type: 'email', required: true, message: '请输入邮箱地址', trigger: 'change' }
-				  ],
-				  password: [
-					{required: true, message: '请输入密码', trigger: 'change' },
-					{ min: 6, max: 32, message: '密码长度在 6 到 32 个字符之间', trigger: 'blur' }
-				  ],
-				  confirm: [
-					{required: true, message: '请选择时间', trigger: 'change' }
-				  ],
-				},
-			  },
-			});
-		new Vue({
-			el: '#main-area',
-			data: {
-				input: '',
-				ttl: '7',
-				cusID: "",
-			},
-			methods: {
-				onSubmit(){
-					var that=this;
-					this.$axios.post(this.$host+'/createURL',this.$qs.stringify({
-						session:"0",
-						original_url:this.$data.input,
-						resourse_id:this.$data.cusID,
-						id_ttl: this.$data.ttl
-						}))
-						.then(function (response) {
-							that.$data.input = response.data.data.result_url;
-						})
-						.catch(function (error) {
-							console.log(error);
-					});
-
-				}
-			}
-		});
-	</script>
+    <footer id='site-footer'>
+      <div class="footer-left">
+        <p class="lh"><a href="#">用户反馈</a></p>
+        <p class="lh"><a href="#">帮助</a></p>
+        <p class="lh"><a href="#">API</a></p>
+        <p class="lh"><a href="#">关于我们</a></p>
+        <p class="lh"><a href="#">感谢</a></p>
+        <p class="lh"><a href="#">粤ICP备15111xxx号-1</a></p>
+      </div>
+    </footer>
+  </body>
+  <script>
+    Vue.prototype.$axios = axios;
+    Vue.prototype.$qs = Qs;
+    Vue.prototype.$host = 'http://127.0.0.1:23333';
+    new Vue({
+      el :'.header-container',
+      data() {
+        var confirmPass = (rule, value, callback) => {
+          if (value === '') {
+            callback(new Error('请再次输入密码'));
+          } else if (value !== this.form.password) {
+            callback(new Error('两次输入密码不一致!'));
+          } else {
+            callback();
+          }
+        };
+        return{
+          dialogRegisterVisible: false,
+          dialogLoginVisible: false,
+          formLabelWidth: '80px',
+          form: {
+            // username: '',
+            // mail: '',
+            // password: '',
+            // confirm: '',
+            username: 'admnin',
+            mail: 'aa@bb.cc',
+            password: '123456',
+            confirm: '123456',
+          },
+          rules: {
+            username: [
+              { required: true, message: '请输入用户名', trigger: 'blur' },
+              { min: 1, max: 6, message: '长度在 6 个字符之内', trigger: 'blur' }
+            ],
+            mail: [
+              { type: 'email', required: true, message: '请输入邮箱地址', trigger: 'change' }
+            ],
+            password: [
+              {required: true, message: '请输入密码', trigger: 'change' },
+              { min: 6, max: 32, message: '密码长度在 6 到 32 个字符之间', trigger: 'blur' }
+            ],
+            confirm: [
+              {required: true, validator: confirmPass, trigger: 'change' }
+            ],
+          },
+        };
+      },
+      methods: {
+        resister(){
+          var that=this;
+          this.$axios.post(this.$host+'/user/register',{
+            "username": this.form.username,
+            "email": this.form.mail,
+            "password": this.form.password,
+          })
+            .then(function (response) {
+              console.log(response.data);
+              that.$message({
+                message: response.data.data.msg,
+                type: 'success'
+              });
+              console.log(response.data.data.msg);
+            })
+            .catch(function (error) {
+              that.$message.error("注册时发生错误");
+          });
+          this.dialogRegisterVisible=false;
+        }
+      }
+      });
+    new Vue({
+      el: '#main-area',
+      data: {
+        input: '',
+        ttl: '7',
+        cusID: "",
+      },
+      methods: {
+        onSubmit(){
+          var that=this;
+          this.$axios.post(this.$host+'/createURL',this.$qs.stringify({
+            session:"0",
+            original_url:this.$data.input,
+            resourse_id:this.$data.cusID,
+            id_ttl: this.$data.ttl
+            }))
+            .then(function (response) {
+              that.$data.input = response.data.data.result_url;
+            })
+            .catch(function (error) {
+              console.log(error);
+          });
+        }
+      }
+    });
+  </script>
 </html>
