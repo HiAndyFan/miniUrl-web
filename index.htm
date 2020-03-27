@@ -70,9 +70,12 @@
           <label class="el-form-item__label">自定义短码
             <el-input id="te_input" class="midinput" v-model="cusID" placeholder="xxxxx"></el-input>
           </label>
-            <label class="el-form-item__label">生命周期
-              <el-input id="te_input" class="smallinput" v-model="ttl"></el-input>天
-            </label>
+          <label class="el-form-item__label">生命周期
+            <el-tooltip class="item" effect="dark" content="短链接的有效期, 未登录用户最长7天, 登录用户可设置为0, 短链接永久有效" placement="bottom-start">
+              <i class="el-icon-warning-outline"></i>
+            </el-tooltip>
+            <el-input id="te_input" class="smallinput" v-model="ttl"></el-input>天
+          </label>
         </div>
       </div>
     </div>
@@ -92,6 +95,38 @@
     Vue.prototype.$axios = axios;
     Vue.prototype.$qs = Qs;
     Vue.prototype.$host = 'http://127.0.0.1:23333';
+
+    new Vue({
+      el: '#main-area',
+      data: {
+        input: '',
+        ttl: '7',
+        cusID: "",
+      },
+      methods: {
+        onSubmit(){
+          if(this.$data.input.indexOf('.') == -1){
+            console.log();
+            self.location.href="http://baidu.com/s?wd="+this.$data.input
+            return;
+          }
+          var that=this;
+          this.$axios.post(this.$host+'/createURL',this.$qs.stringify({
+            session:"0",
+            original_url:this.$data.input,
+            resourse_id:this.$data.cusID,
+            id_ttl: this.$data.ttl
+            }))
+            .then(function (response) {
+              that.$data.input = response.data.data.result_url;
+            })
+            .catch(function (error) {
+              console.log(error);
+          });
+        }
+      }
+    });
+    
     new Vue({
       el :'.header-container',
       data() {
@@ -159,30 +194,5 @@
         }
       }
       });
-    new Vue({
-      el: '#main-area',
-      data: {
-        input: '',
-        ttl: '7',
-        cusID: "",
-      },
-      methods: {
-        onSubmit(){
-          var that=this;
-          this.$axios.post(this.$host+'/createURL',this.$qs.stringify({
-            session:"0",
-            original_url:this.$data.input,
-            resourse_id:this.$data.cusID,
-            id_ttl: this.$data.ttl
-            }))
-            .then(function (response) {
-              that.$data.input = response.data.data.result_url;
-            })
-            .catch(function (error) {
-              console.log(error);
-          });
-        }
-      }
-    });
   </script>
 </html>
