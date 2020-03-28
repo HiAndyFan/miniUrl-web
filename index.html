@@ -94,8 +94,8 @@
   <script>
     Vue.prototype.$axios = axios;
     Vue.prototype.$qs = Qs;
-    Vue.prototype.$host = 'http://127.0.0.1:23333';
-
+    Vue.prototype.$host = 'http://'+this.window.location.host;
+    console.log('http://'+this.window.location.host);
     new Vue({
       el: '#main-area',
       data: {
