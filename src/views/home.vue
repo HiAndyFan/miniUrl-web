@@ -456,7 +456,6 @@ export default {
           if (response.data.data.code === "209") {
             that.userToken = response.data.data.token;
             //console.log(that.userToken)
-            that.dialogLoginVisible = false;
             that.$axios
               .post(
                 "/user/getinfo",
@@ -465,15 +464,22 @@ export default {
               )
               .then(function(response) {
                 //console.log(response.data.data)
-                that.userInfo = response.data.data;
+                if(response.data.data.code !== "205"){
+                  that.userInfo = response.data.data;
+                  that.hasUserInfo = true;
+                  that.$store.commit("setuserToken", that.userToken);
+                  that.dialogLoginVisible = false;
+                  that.$message({
+                    message: "欢迎回来！ " + response.data.data.username,
+                    type: "success"
+                  });
+                }else if(response.data.data.code === "205"){
+                  that.$message({
+                    message: "未验证邮箱：" + response.data.data.urlToLoginEmail,
+                    type: "error"
+                  });
+                }
               });
-
-            that.hasUserInfo = true;
-            that.$store.commit("setuserToken", that.userToken);
-            that.$message({
-              message: "欢迎回来！ " + response.data.data.username,
-              type: "success"
-            });
           } else {
             that.$message({
               message: response.data.data.msg,
@@ -510,6 +516,11 @@ export default {
 
     getUserUrlRecord() {
       let that = this;
+      if (that.currentPage * that.pageSize < that.userInfo.urlnum) {
+        that.currentPage++;
+      } else {
+        return;
+      }
       this.$axios
         .get(
           "/user/geturlrecord?token=" +
@@ -522,17 +533,6 @@ export default {
         .then(function(response) {
           if (response.data.code === 200) {
             //that.userUrlRecord = response.data.data;
-            if (that.currentPage <= 10) {
-              that.currentPage++;
-            } else {
-              return;
-            }
-            // for (let i in that.userUrlRecord) {
-            //   //that.userUrlRecord[i].createdTime=new Date.setTime(that.userUrlRecord[i].createdTime);
-            //   that.userUrlRecord[i].resourseId =
-            //     window.location.host + "/" + that.userUrlRecord[i].resourseId;
-            //   //console.log(i)
-            // }
             let buffer = response.data.data;
             for (let i in buffer) {
               buffer[i].resourseId =

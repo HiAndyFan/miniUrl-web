@@ -141,7 +141,7 @@ a:hover {
 h1 a.brand-logo-text {
   color: #fff;
   font-weight: 600;
-  font-size: 45px;
+  font-size: 40px;
   line-height: 55px;
   margin-bottom: 20px;
   display: inline-block;
