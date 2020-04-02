@@ -20,9 +20,15 @@
             }}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>邮箱：{{ userInfo.email }}</el-dropdown-item>
-            <el-dropdown-item>用户ID：{{ userInfo.userid }}</el-dropdown-item>
-            <el-dropdown-item>创建次数：{{ userInfo.urlnum }}</el-dropdown-item>
+            <el-dropdown-item disabled
+              >邮箱：{{ userInfo.email }}</el-dropdown-item
+            >
+            <el-dropdown-item disabled
+              >用户ID：{{ userInfo.userid }}</el-dropdown-item
+            >
+            <el-dropdown-item command="urlRecord"
+              >创建次数：{{ userInfo.urlnum }}</el-dropdown-item
+            >
             <el-dropdown-item disabled
               >用户等级：{{ userInfo.userclass }}</el-dropdown-item
             >
@@ -152,7 +158,7 @@
               id="te_input"
               class="midinput"
               v-model="cusID"
-              placeholder="xxxxx"
+              placeholder="5字母"
             ></el-input>
           </label>
           <label class="el-form-item__label"
@@ -208,11 +214,49 @@
         >
       </span>
     </el-dialog>
+    <el-drawer
+      title="创建记录"
+      :visible.sync="userRecordDrawerShow"
+      direction="rtl"
+      size="60%"
+      :with-header="false"
+    >
+      <h1 id="recordTitle">创建记录</h1>
+      <el-table
+        :data="userUrlRecord"
+        style="width: 100%"
+        stripe
+        v-el-table-infinite-scroll="getUserUrlRecord"
+        height="100%"
+      >
+        <el-table-column
+          property="createdTime"
+          label="日期"
+          width="150"
+          fixed
+        ></el-table-column>
+        <el-table-column
+          property="idTtl"
+          label="生命（天）"
+          width="150"
+        ></el-table-column>
+        <el-table-column
+          property="resourseId"
+          label="短链"
+          width="150"
+        ></el-table-column>
+        <el-table-column property="originalUrl" label="原链"></el-table-column>
+      </el-table>
+    </el-drawer>
   </div>
 </template>
 
 <script>
+import elTableInfiniteScroll from "el-table-infinite-scroll";
 export default {
+  directives: {
+    "el-table-infinite-scroll": elTableInfiniteScroll
+  },
   name: "home",
   data: function() {
     var confirmPass = (rule, value, callback) => {
@@ -240,6 +284,11 @@ export default {
       ttl: "7",
       cusID: "",
 
+      userUrlRecord: [],
+      pageSize: 30,
+      currentPage: 1,
+
+      userRecordDrawerShow: false,
       dialogRegisterVisible: false,
       dialogLoginVisible: false,
       emailDialogVisible: false,
@@ -285,9 +334,9 @@ export default {
   },
   created() {
     //console.log("可以:"+this.$store.state.userToken)
-    let that=this
+    let that = this;
     if (this.$store.state.userToken !== "") {
-      this.userToken=this.$store.state.userToken
+      this.userToken = this.$store.state.userToken;
       this.$axios
         .post(
           "/user/getinfo",
@@ -295,7 +344,7 @@ export default {
           { headers: { "Content-Type": "application/json" } }
         )
         .then(function(response) {
-          that.hasUserInfo=true;
+          that.hasUserInfo = true;
           that.userInfo = response.data.data;
         });
     }
@@ -311,24 +360,46 @@ export default {
       }
       let that = this;
       let qs = require("qs");
-      this.$axios
-        .post(
-          "/createURL",
-          qs.stringify({
-            session: "0",
-            original_url: this.$data.input,
-            resourse_id: this.$data.cusID,
-            id_ttl: this.$data.ttl
+
+      if (!this.hasUserInfo) {
+        this.$axios
+          .post(
+            "/createURL",
+            qs.stringify({
+              session: "0",
+              original_url: this.$data.input,
+              resourse_id: this.$data.cusID,
+              id_ttl: this.$data.ttl
+            })
+          )
+          .then(function(response) {
+            that.createURLDialogVisible = true;
+            that.URLresult = response.data.data.result_url;
+            //that.$data.input = response.data.data.result_url;
           })
-        )
-        .then(function(response) {
-          that.createURLDialogVisible = true;
-          that.URLresult = response.data.data.result_url;
-          //that.$data.input = response.data.data.result_url;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        this.$axios
+          .post(
+            "/createURL",
+            qs.stringify({
+              session: this.userToken,
+              original_url: this.$data.input,
+              resourse_id: this.$data.cusID,
+              id_ttl: this.$data.ttl
+            })
+          )
+          .then(function(response) {
+            that.createURLDialogVisible = true;
+            that.URLresult = response.data.data.result_url;
+            //that.$data.input = response.data.data.result_url;
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
     },
     goReg() {
       this.$axios
@@ -416,15 +487,65 @@ export default {
     },
 
     userInfoCommand(command) {
-      if (command === "logout") {
-        console.log("拜拜");
-        this.hasUserInfo = false;
-        this.userToken = "";
-        for (let i in this.userInfo) {
-          this.userInfo[i] = "";
+      switch (command) {
+        case "logout": {
+          console.log("拜拜");
+          this.hasUserInfo = false;
+          this.userToken = "";
+          for (let i in this.userInfo) {
+            this.userInfo[i] = "";
+          }
+          this.$store.commit("setuserToken", "");
+          break;
         }
-        this.$store.commit("setuserToken","");
+        case "urlRecord": {
+          this.currentPage = 1;
+          this.getUserUrlRecord();
+          this.userRecordDrawerShow = true;
+          console.log(this.userUrlRecord);
+          break;
+        }
       }
+    },
+
+    getUserUrlRecord() {
+      let that = this;
+      this.$axios
+        .get(
+          "/user/geturlrecord?token=" +
+            this.userToken +
+            "&currentPage=" +
+            this.currentPage +
+            "&pageSize=" +
+            this.pageSize
+        )
+        .then(function(response) {
+          if (response.data.code === 200) {
+            //that.userUrlRecord = response.data.data;
+            if (that.currentPage <= 10) {
+              that.currentPage++;
+            } else {
+              return;
+            }
+            // for (let i in that.userUrlRecord) {
+            //   //that.userUrlRecord[i].createdTime=new Date.setTime(that.userUrlRecord[i].createdTime);
+            //   that.userUrlRecord[i].resourseId =
+            //     window.location.host + "/" + that.userUrlRecord[i].resourseId;
+            //   //console.log(i)
+            // }
+            let buffer = response.data.data;
+            for (let i in buffer) {
+              buffer[i].resourseId =
+                window.location.host + "/" + buffer[i].resourseId;
+            }
+            that.userUrlRecord = that.userUrlRecord.concat(buffer);
+          } else {
+            that.$message({
+              message: "获取用户记录失败！",
+              type: "error"
+            });
+          }
+        });
     }
   }
 };
@@ -438,7 +559,7 @@ html,
   padding: 0;
 }
 .container {
-  background-image: url(../../assets/common/background.jpg);
+  background-image: url(../assets/common/background.jpg);
   background-position: center top;
   background-size: cover;
   background-attachment: fixed;
@@ -565,5 +686,8 @@ html,
   font-size: 22px;
   background-color: #fad8b9;
   border-radius: 8px;
+}
+#recordTitle {
+  text-align: center;
 }
 </style>

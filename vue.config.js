@@ -1,9 +1,19 @@
 module.exports = {
   // 部署应用包时的基本 URL
-  //publicPath: process.env.NODE_ENV === "production" ? "//your_url" : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "/" : "/", //your_url" : "/",
+  configureWebpack: {
+    externals: {
+      vue: "Vue",
+      "element-ui": "ElementUI",
+      "animate.css": "animate",
+      axios: "axios",
+      qs: "Qs"
+    }
+  },
 
   // 运行 vue-cli-service build 时生成的生产环境构建文件的目录
   // 默认构建前清除文件夹(构建时传入 --no-clean 可关闭该行为
+
   outputDir: "dist",
 
   // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录
@@ -37,11 +47,6 @@ module.exports = {
 
   // webpack 配置，键值对象时会合并配置，为方法时会改写配置
   // https://cli.vuejs.org/guide/webpack.html#simple-configuration
-  configureWebpack: {
-    plugins: [
-      //new MyAwesomeWebpackPlugin()
-    ]
-  },
   //configureWebpack: (config) => {},
 
   // webpack 链接 API，用于生成和修改 webapck 配置
