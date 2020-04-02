@@ -59,6 +59,7 @@
               type="password"
               v-model="form.password"
               autocomplete="off"
+              @keyup.enter.native="login"
             ></el-input>
           </el-form-item>
         </el-form>
@@ -154,7 +155,22 @@
         <div class="more-opt">
           <label class="el-form-item__label"
             >自定义短码
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="登录后可用"
+              placement="bottom"
+              v-if="!hasUserInfo"
+            >
+              <el-input
+                id="te_inputN"
+                class="midinput"
+                :disabled="true"
+                placeholder="5字母"
+              ></el-input>
+            </el-tooltip>
             <el-input
+              v-else
               id="te_input"
               class="midinput"
               v-model="cusID"
@@ -351,6 +367,9 @@ export default {
   },
   methods: {
     onSubmit() {
+      if(this.$data.input.length===0){
+        return;
+      }
       if (
         (this.$data.input.length !== 0) &
         (this.$data.input.indexOf(".") === -1)
@@ -464,7 +483,7 @@ export default {
               )
               .then(function(response) {
                 //console.log(response.data.data)
-                if(response.data.data.code !== "205"){
+                if (response.data.data.code !== "205") {
                   that.userInfo = response.data.data;
                   that.hasUserInfo = true;
                   that.$store.commit("setuserToken", that.userToken);
@@ -473,9 +492,10 @@ export default {
                     message: "欢迎回来！ " + response.data.data.username,
                     type: "success"
                   });
-                }else if(response.data.data.code === "205"){
+                } else if (response.data.data.code === "205") {
                   that.$message({
-                    message: "未验证邮箱：" + response.data.data.urlToLoginEmail,
+                    message:
+                      "未验证邮箱，您的邮箱登录地址：" + response.data.data.urlToLoginEmail,
                     type: "error"
                   });
                 }
