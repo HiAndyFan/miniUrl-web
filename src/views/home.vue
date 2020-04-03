@@ -367,7 +367,15 @@ export default {
   },
   methods: {
     onSubmit() {
-      if(this.$data.input.length===0){
+      // console.log(this.$data.input.split('/')[2])
+      // console.log(window.location.host)
+      if (this.$data.input.split("/")[2] === window.location.host) {
+        this.$data.input = "禁止套娃！";
+        return;
+      } else if (this.$data.input === "禁止套娃！") {
+        return;
+      }
+      if (this.$data.input.length === 0) {
         return;
       }
       if (
@@ -392,9 +400,9 @@ export default {
             })
           )
           .then(function(response) {
-            that.createURLDialogVisible = true;
+            // that.createURLDialogVisible = true;
             that.URLresult = response.data.data.result_url;
-            //that.$data.input = response.data.data.result_url;
+            that.$data.input = response.data.data.result_url;
           })
           .catch(function(error) {
             console.log(error);
@@ -411,9 +419,9 @@ export default {
             })
           )
           .then(function(response) {
-            that.createURLDialogVisible = true;
+            // that.createURLDialogVisible = true;
             that.URLresult = response.data.data.result_url;
-            //that.$data.input = response.data.data.result_url;
+            that.$data.input = response.data.data.result_url;
           })
           .catch(function(error) {
             console.log(error);
@@ -495,7 +503,8 @@ export default {
                 } else if (response.data.data.code === "205") {
                   that.$message({
                     message:
-                      "未验证邮箱，您的邮箱登录地址：" + response.data.data.urlToLoginEmail,
+                      "未验证邮箱，您的邮箱登录地址：" +
+                      response.data.data.urlToLoginEmail,
                     type: "error"
                   });
                 }
