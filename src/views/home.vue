@@ -115,13 +115,14 @@
               v-model="form.regvalidatecode"
               autocomplete="off"
             ></el-input>
-            <img
-              id="regvalidatecodeImg"
-              height="50px"
-              width="200px"
-              v-on:click="goReg"
-            />
           </el-form-item>
+          <div id="regvalidatecodeImgDiv">
+            <img
+                    id="regvalidatecodeImg"
+                    height="50px"
+                    width="200px"
+                    v-on:click="goReg"
+            /></div>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogRegisterVisible = false">取 消</el-button>
@@ -718,5 +719,14 @@ html,
 }
 #recordTitle {
   text-align: center;
+}
+#regvalidatecodeImgDiv {
+  margin-top: 10px;
+  margin-left: 80px;
+  text-align: center;
+  width: auto;
+}
+#regvalidatecodeImg{
+  border-radius: 10px;
 }
 </style>
