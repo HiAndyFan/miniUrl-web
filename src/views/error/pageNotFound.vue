@@ -1,6 +1,7 @@
 <template>
   <div id="container">
     <section class="w3l-errorpage">
+      <div class="site-header"></div>
       <div class="error404">
         <div class="wrapper">
           <div class="logo-brand">

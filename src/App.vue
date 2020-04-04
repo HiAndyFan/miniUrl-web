@@ -1,20 +1,14 @@
 <template>
   <div id="app">
-    <div class="header-container">
-      <div id="navigation">
-        <li type="none">
-          
-        </li>
-      </div>
-    </div>
     <router-view />
     <footer id="site-footer">
-      <div class="footer-left">
-        <p class="lh"><a href="#">用户反馈</a></p>
-        <p class="lh"><a href="#">帮助</a></p>
-        <p class="lh"><a href="#">API</a></p>
+      <div id="footer-left">
         <p class="lh"><a href="#">关于我们</a></p>
-        <p class="lh"><a href="#">感谢</a></p>
+        <p class="lh"><a href="#">用户反馈</a></p>
+        <p class="lh"><a href="#">友情链接:</a></p>
+        <p class="lh"><a href="/">MiniURL</a></p>
+      </div>
+      <div id="footer-right">
         <p class="lh"><a href="#">粤ICP备15111xxx号-1</a></p>
       </div>
     </footer>
@@ -26,12 +20,23 @@ html,
 body,
 #app {
   height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 #navigation{
 
 }
 .header-container {
  }
+.site-header{
+  height: 40px;
+  background: linear-gradient(rgba(0, 0, 0, 0.23), transparent);
+  width: 100%;
+  position: absolute;  /*不加和404冲突*/
+  /*display: flex;*/
+  /*justify-content: space-between;*/
+  /*flex-direction: row;*/
+}
 .header-a {
   color: #66ccff;
   display: inline-block;
@@ -60,6 +65,9 @@ body,
   background-color: rgba(13, 13, 13, 0.7);
   display: flex;
   align-items: center;
+  display: flex;
+  justify-content: space-between;
+  flex-direction:row;
 }
 #site-footer a {
   font-size: 14px;
@@ -75,7 +83,10 @@ body,
   margin: 5px;
   display: inline-block;
 }
-
+#footer-left{
+}
+#footer-right{
+}
 .lh {
   display: inline-block;
 }

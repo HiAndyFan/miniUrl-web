@@ -1,42 +1,44 @@
 <template>
   <div class="container">
     <div class="header-container">
-      <div id="site-header">
-        <li type="none" v-if="!hasUserInfo">
-          <a class="header-a" href="#" @click="dialogLoginVisible = true"
-            >登陆</a
-          >
-          <a
-            class="header-a"
-            href="#"
-            @click="dialogRegisterVisible = true"
-            v-on:click="goReg"
-            >注册</a
-          >
-        </li>
-        <el-dropdown @command="userInfoCommand" v-else>
-          <span class="header-a">
-            欢迎, {{ userInfo.username
-            }}<i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item disabled
-              >邮箱：{{ userInfo.email }}</el-dropdown-item
+      <div class="site-header">
+        <div id="reg-and-login">
+          <li type="none" v-if="!hasUserInfo">
+            <a class="header-a" href="#" @click="dialogLoginVisible = true"
+              >登陆</a
             >
-            <el-dropdown-item disabled
-              >用户ID：{{ userInfo.userid }}</el-dropdown-item
+            <a
+              class="header-a"
+              href="#"
+              @click="dialogRegisterVisible = true"
+              v-on:click="goReg"
+              >注册</a
             >
-            <el-dropdown-item command="urlRecord"
-              >创建次数：{{ userInfo.urlnum }}</el-dropdown-item
-            >
-            <el-dropdown-item disabled
-              >用户等级：{{ userInfo.userclass }}</el-dropdown-item
-            >
-            <el-dropdown-item divided command="logout"
-              >退出登录</el-dropdown-item
-            >
-          </el-dropdown-menu>
-        </el-dropdown>
+          </li>
+          <el-dropdown @command="userInfoCommand" v-else>
+            <span class="header-a">
+              欢迎, {{ userInfo.username
+              }}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item disabled
+                >邮箱：{{ userInfo.email }}</el-dropdown-item
+              >
+              <el-dropdown-item disabled
+                >用户ID：{{ userInfo.userid }}</el-dropdown-item
+              >
+              <el-dropdown-item command="urlRecord"
+                >创建次数：{{ userInfo.urlnum }}</el-dropdown-item
+              >
+              <el-dropdown-item disabled
+                >用户等级：{{ userInfo.userclass }}</el-dropdown-item
+              >
+              <el-dropdown-item divided command="logout"
+                >退出登录</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </div>
       <el-dialog
         title="登录"
@@ -118,11 +120,12 @@
           </el-form-item>
           <div id="regvalidatecodeImgDiv">
             <img
-                    id="regvalidatecodeImg"
-                    height="50px"
-                    width="200px"
-                    v-on:click="goReg"
-            /></div>
+              id="regvalidatecodeImg"
+              height="50px"
+              width="200px"
+              v-on:click="goReg"
+            />
+          </div>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogRegisterVisible = false">取 消</el-button>
@@ -592,16 +595,15 @@ html,
   align-items: center;
 }
 
-#site-header {
-  width: 100%;
+#reg-and-login {
+  float: right;
   height: 40px;
   display: flex;
   align-items: center;
-  position: absolute;
+  /*position: absolute;*/
   z-index: 10;
   overflow: hidden;
   flex-direction: row-reverse;
-  background: linear-gradient(rgba(0, 0, 0, 0.23), transparent);
   /* box-shadow: 0px 0px 5px #444; */
 }
 .el-form-item label {
@@ -672,7 +674,7 @@ html,
   text-align: center;
   width: auto;
 }
-#regvalidatecodeImg{
+#regvalidatecodeImg {
   border-radius: 10px;
 }
 </style>
