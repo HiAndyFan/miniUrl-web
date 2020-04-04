@@ -9,7 +9,8 @@
         <p class="lh"><a href="/">MiniURL</a></p>
       </div>
       <div id="footer-right">
-        <p class="lh"><a href="#">粤ICP备15111xxx号-1</a></p>
+        <p class="lh"><a>“</a><a id="jinrishici-sentence" href="http://www.jinrishici.com" target="view_window">正在加载今日诗词....</a><a>”</a></p>
+        <p class="lh"><a href="#"> 粤ICP备15111xxx号-1</a></p>
       </div>
     </footer>
   </div>
