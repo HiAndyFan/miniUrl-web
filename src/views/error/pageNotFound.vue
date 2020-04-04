@@ -187,20 +187,11 @@ p.para {
   -ms-background-size: cover;
   z-index: 1;
   display: grid;
-  position: relative;
+  /*!*position: relative;*! 加上会导致底栏消失*/
   align-items: center;
   min-height: 100vh;
   padding: 40px 0px;
 }
-/* .w3l-errorpage .error404:before { */
-/* content: ""; */
-/* background: rgba(0, 0, 0, 0.78); */
-/* width: 100%; */
-/* position: absolute; */
-/* top: 0px; */
-/* bottom: 0px; */
-/* opacity: .6; */
-/* z-index: -1; } */
 .w3l-errorpage .error-container > span {
   display: inline-block;
   line-height: 0.7;

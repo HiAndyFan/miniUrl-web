@@ -179,7 +179,7 @@
             ></el-input>
           </label>
           <label class="el-form-item__label"
-            >生命周期
+            >短链生命
             <el-tooltip
               class="item"
               effect="dark"
@@ -194,16 +194,6 @@
         </div>
       </div>
     </div>
-    <footer id="site-footer">
-      <div class="footer-left">
-        <p class="lh"><a href="#">用户反馈</a></p>
-        <p class="lh"><a href="#">帮助</a></p>
-        <p class="lh"><a href="#">API</a></p>
-        <p class="lh"><a href="#">关于我们</a></p>
-        <p class="lh"><a href="#">感谢</a></p>
-        <p class="lh"><a href="#">粤ICP备15111xxx号-1</a></p>
-      </div>
-    </footer>
     <el-dialog
       title="注册成功，请验证邮箱"
       :visible.sync="emailDialogVisible"
@@ -601,8 +591,7 @@ html,
   /* justify-content: space-between; */
   align-items: center;
 }
-.header-container {
-}
+
 #site-header {
   width: 100%;
   height: 40px;
@@ -618,20 +607,7 @@ html,
 .el-form-item label {
   margin-top: 5px;
 }
-.header-a {
-  color: #66ccff;
-  display: inline-block;
-  font-size: 15px;
-  font-weight: bold;
-  text-decoration: none;
-  margin: 12px;
-}
-.header-a:hover {
-  color: #3bd6ff;
-}
-.header-a:active {
-  color: #53fffb;
-}
+
 #content {
   min-height: 100%;
 }
@@ -656,10 +632,7 @@ html,
   display: flex;
   flex-wrap: nowrap;
 }
-#full-url {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-}
+
 #submit {
   height: 40px;
   /* background-color: #67c23a; */
@@ -684,34 +657,7 @@ html,
   padding-left: -30px;
   margin-right: 30px;
 }
-#site-footer {
-  min-width: 100%;
-  height: 35px;
-  margin-top: -35px;
-  z-index: 10;
-  overflow: hidden;
-  /* background-color: #333; */
-  background-color: rgba(13, 13, 13, 0.7);
-  display: flex;
-  align-items: center;
-}
-#site-footer a {
-  font-size: 14px;
-  text-decoration: none;
-  color: #666;
-  margin: 5px;
-  display: inline-block;
-}
-#site-footer a:hover {
-  font-size: 14px;
-  text-decoration: none;
-  color: #999;
-  margin: 5px;
-  display: inline-block;
-}
-.lh {
-  display: inline-block;
-}
+
 #URLresult {
   font-size: 22px;
   background-color: #fad8b9;
