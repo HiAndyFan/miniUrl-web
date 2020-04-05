@@ -191,7 +191,7 @@
             >
               <i class="el-icon-warning-outline"></i>
             </el-tooltip>
-            <el-input id="te_input2" class="smallinput" v-model="ttl"></el-input
+            <el-input  class="te_input2 smallinput" v-model="ttl"></el-input
             >天
           </label>
         </div>
@@ -403,7 +403,7 @@ export default {
           .post(
             "/createURL",
             qs.stringify({
-                token: this.userToken,
+              token: this.userToken,
               original_url: this.$data.input,
               resourse_id: this.$data.cusID,
               id_ttl: this.$data.ttl
@@ -643,7 +643,7 @@ html,
   /* background-color: #85ce61; */
 }
 .smallinput {
-  max-width: 50px;
+  max-width: 80px;
 }
 .midinput {
   max-width: 80px;

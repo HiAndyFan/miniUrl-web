@@ -1,8 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import home from "../views/home.vue";
-import pageNotFound from "../views/error/pageNotFound.vue";
-import about from "../views/about";
 
 Vue.use(VueRouter);
 
@@ -10,17 +7,17 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: home
+    component: () => import("@/views/home.vue")
   },
   {
     path: "/about",
     name: "about",
-    component: about
+    component: () => import("@/views/about.vue")
   },
   {
     path: "/404",
     name: "pageNotFound",
-    component: pageNotFound
+    component: () => import("@/views/error/pageNotFound.vue")
   }
 ];
 

@@ -4,10 +4,11 @@ module.exports = {
   configureWebpack: {
     externals: {
       vue: "Vue",
-      "element-ui": "ElementUI",
+      "element-ui": "ELEMENT",
       "animate.css": "animate",
       axios: "axios",
-      qs: "Qs"
+      qs: "Qs",
+      //"normalize.css": "normalize.css"
     }
   },
 
