@@ -387,10 +387,7 @@ export default {
           .post(
             "/createURL",
             qs.stringify({
-              session: "0",
-              original_url: this.$data.input,
-              resourse_id: this.$data.cusID,
-              id_ttl: this.$data.ttl
+              original_url: this.$data.input
             })
           )
           .then(function(response) {
@@ -406,7 +403,7 @@ export default {
           .post(
             "/createURL",
             qs.stringify({
-              session: this.userToken,
+                token: this.userToken,
               original_url: this.$data.input,
               resourse_id: this.$data.cusID,
               id_ttl: this.$data.ttl

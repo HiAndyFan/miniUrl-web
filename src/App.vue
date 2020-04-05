@@ -21,8 +21,6 @@ html,
 body,
 #app {
   height: 100%;
-  overflow-y: hidden;
-  overflow-x: hidden;
 }
 #navigation{
 
