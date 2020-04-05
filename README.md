@@ -1,5 +1,4 @@
-# miniUrl-web
-browser side of miniurl
+# miniurl-web
 
 ## Project setup
 ```
@@ -20,3 +19,6 @@ npm run build
 ```
 npm run lint
 ```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
