@@ -16,8 +16,13 @@ const routes = [
   },
   {
     path: "/404",
-    name: "pageNotFound",
-    component: () => import("@/views/error/pageNotFound.vue")
+    name: "PageNotFound",
+    component: () => import("@/views/error/PageNotFound.vue")
+  },
+  {
+    path: "/500",
+    name: "InternalServerError",
+    component: () => import("@/views/error/InternalServerError.vue")
   }
 ];
 

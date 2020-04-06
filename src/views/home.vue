@@ -252,14 +252,14 @@
       >
         <el-table-column
           property="createdTime"
-          label="日期"
+          label="创建日期"
           width="150"
           fixed
         ></el-table-column>
         <el-table-column
           property="idTtl"
           label="生命（天）"
-          width="150"
+          width="100"
         ></el-table-column>
         <el-table-column
           property="resourseId"
@@ -274,6 +274,7 @@
 
 <script>
 import elTableInfiniteScroll from "el-table-infinite-scroll";
+import {formatDate} from '../components/date';
 export default {
   directives: {
     "el-table-infinite-scroll": elTableInfiniteScroll
@@ -438,6 +439,9 @@ export default {
                 //console.log(response.data.data)
                 if (response.data.code === "ok") {
                   that.userInfo = response.data.data;
+                  that.userUrlRecord = [];
+                  that.currentPage = 1;
+                  that.firstGet = true;
                 } else {
                   that.$message({
                     message: response.data.message,
@@ -593,6 +597,7 @@ export default {
               for (let i in buffer) {
                 buffer[i].resourseId =
                   window.location.host + "/" + buffer[i].resourseId;
+                buffer[i].createdTime=buffer[i].createdTime.substring(0, 10)
               }
               that.userUrlRecord = that.userUrlRecord.concat(buffer);
             } else {
@@ -606,7 +611,6 @@ export default {
       }
       if (that.currentPage * that.pageSize < that.userInfo.urlnum) {
         that.currentPage++;
-
         this.$axios
           .get(
             "/user/geturlrecord?token=" +
@@ -623,6 +627,7 @@ export default {
               for (let i in buffer) {
                 buffer[i].resourseId =
                   window.location.host + "/" + buffer[i].resourseId;
+                buffer[i].createdTime=buffer[i].createdTime.substring(0, 10)
               }
               that.userUrlRecord = that.userUrlRecord.concat(buffer);
             } else {

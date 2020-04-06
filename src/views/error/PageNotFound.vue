@@ -7,7 +7,7 @@
           <div class="logo-brand">
             <h1>
               <a class="brand-logo-text" href="/"
-                ><div class="position-head">抱歉，找不到该页面</div>
+                ><div class="position-head">抱歉，没有找到到该页面</div>
               </a>
             </h1>
           </div>
@@ -21,7 +21,7 @@
             </section>
             <h1>Page Not Found</h1>
             <p class="zoom-area para">
-              对不起，页面丢失了，请返回首页或者联系我们哦
+              页面丢失了，或该短链已经到达生命期限
             </p>
 
             <a href="/" class="more-link">返回首页</a>
@@ -33,7 +33,7 @@
 </template>
 <script>
 export default {
-  name: "pageNotFound"
+  name: "PageNotFound"
 };
 </script>
 <style scoped>
