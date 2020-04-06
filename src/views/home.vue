@@ -196,14 +196,12 @@
               v-model="ttl"
               v-if="!hasUserInfo"
               @input="only7($event)"
-            ></el-input
-            >
+            ></el-input>
             <el-input
-                    class="te_input2 smallinput"
-                    v-model="ttl"
-                    v-else
-            ></el-input
-            >
+              class="te_input2 smallinput"
+              v-model="ttl"
+              v-else
+            ></el-input>
             天
           </label>
         </div>
@@ -244,13 +242,13 @@
       size="60%"
       :with-header="false"
     >
-      <h1 id="recordTitle">创建记录</h1>
+      <h1 id="userRecordDrawerTitle">创建记录</h1>
       <el-table
         :data="userUrlRecord"
         style="width: 100%"
         stripe
         v-el-table-infinite-scroll="getUserUrlRecord"
-        height="100%"
+        height="80%"
       >
         <el-table-column
           property="createdTime"
@@ -310,6 +308,7 @@ export default {
       userUrlRecord: [],
       pageSize: 30,
       currentPage: 1,
+      firstGet: true,
 
       userRecordDrawerShow: false,
       dialogRegisterVisible: false,
@@ -429,6 +428,23 @@ export default {
             // that.createURLDialogVisible = true;
             that.URLresult = response.data.data.result_url;
             that.$data.input = response.data.data.result_url;
+            that.$axios
+              .post(
+                "/user/getinfo",
+                { token: that.userToken },
+                { headers: { "Content-Type": "application/json" } }
+              )
+              .then(function(response) {
+                //console.log(response.data.data)
+                if (response.data.code === "ok") {
+                  that.userInfo = response.data.data;
+                } else {
+                  that.$message({
+                    message: response.data.message,
+                    type: "error"
+                  });
+                }
+              });
           })
           .catch(function(error) {
             console.log(error);
@@ -460,12 +476,12 @@ export default {
             that.emailDialogVisible = true;
             that.urlToLoginEmail = response.data.data.urlToLoginEmail;
             that.$message({
-              message: response.data.data.msg,
+              message: response.data.message,
               type: "success"
             });
           } else {
             that.$message({
-              message: response.data.data.msg,
+              message: response.data.message,
               type: "error"
             });
           }
@@ -487,7 +503,7 @@ export default {
         )
         .then(function(response) {
           //console.log(response.data.data);
-          if (response.data.data.code === "ok") {
+          if (response.data.code === "ok") {
             that.userToken = response.data.data.token;
             //console.log(that.userToken)
             that.$axios
@@ -498,7 +514,7 @@ export default {
               )
               .then(function(response) {
                 //console.log(response.data.data)
-                if (response.data.data.code !== "205") {
+                if (response.data.code === "ok") {
                   that.userInfo = response.data.data;
                   that.hasUserInfo = true;
                   that.$store.commit("setuserToken", that.userToken);
@@ -509,14 +525,14 @@ export default {
                   });
                 } else {
                   that.$message({
-                    message: response.data.data.msg,
+                    message: response.data.message,
                     type: "error"
                   });
                 }
               });
           } else {
             that.$message({
-              message: response.data.data.msg,
+              message: response.data.message,
               type: "error"
             });
           }
@@ -549,7 +565,7 @@ export default {
     },
     only7(e) {
       console.log(e % 10);
-      if ((e % 10) <= 7 && (e % 10) >= 1) {
+      if (e % 10 <= 7 && e % 10 >= 1) {
         this.ttl = e % 10;
       }
       if (this.ttl > 7) {
@@ -560,36 +576,63 @@ export default {
     },
     getUserUrlRecord() {
       let that = this;
+      if (this.firstGet) {
+        this.$axios
+          .get(
+            "/user/geturlrecord?token=" +
+              this.userToken +
+              "&currentPage=" +
+              this.currentPage +
+              "&pageSize=" +
+              this.pageSize
+          )
+          .then(function(response) {
+            if (response.data.code === "ok") {
+              //that.userUrlRecord = response.data.data;
+              let buffer = response.data.data;
+              for (let i in buffer) {
+                buffer[i].resourseId =
+                  window.location.host + "/" + buffer[i].resourseId;
+              }
+              that.userUrlRecord = that.userUrlRecord.concat(buffer);
+            } else {
+              that.$message({
+                message: response.data.message,
+                type: "error"
+              });
+            }
+          });
+        this.firstGet = false;
+      }
       if (that.currentPage * that.pageSize < that.userInfo.urlnum) {
         that.currentPage++;
-      } else {
-        return;
-      }
-      this.$axios
-        .get(
-          "/user/geturlrecord?token=" +
-            this.userToken +
-            "&currentPage=" +
-            this.currentPage +
-            "&pageSize=" +
-            this.pageSize
-        )
-        .then(function(response) {
-          if (response.data.data.code === "ok") {
-            //that.userUrlRecord = response.data.data;
-            let buffer = response.data.data;
-            for (let i in buffer) {
-              buffer[i].resourseId =
-                window.location.host + "/" + buffer[i].resourseId;
+
+        this.$axios
+          .get(
+            "/user/geturlrecord?token=" +
+              this.userToken +
+              "&currentPage=" +
+              this.currentPage +
+              "&pageSize=" +
+              this.pageSize
+          )
+          .then(function(response) {
+            if (response.data.code === "ok") {
+              //that.userUrlRecord = response.data.data;
+              let buffer = response.data.data;
+              for (let i in buffer) {
+                buffer[i].resourseId =
+                  window.location.host + "/" + buffer[i].resourseId;
+              }
+              that.userUrlRecord = that.userUrlRecord.concat(buffer);
+            } else {
+              that.$message({
+                message: response.data.message,
+                type: "error"
+              });
             }
-            that.userUrlRecord = that.userUrlRecord.concat(buffer);
-          } else {
-            that.$message({
-              message: response.data.data.msg,
-              type: "error"
-            });
-          }
-        });
+          });
+      }
     }
   }
 };
@@ -697,5 +740,8 @@ html,
 }
 #regvalidatecodeImg {
   border-radius: 5px;
+}
+#userRecordDrawerTitle {
+  text-align: center;
 }
 </style>
