@@ -191,8 +191,20 @@
             >
               <i class="el-icon-warning-outline"></i>
             </el-tooltip>
-            <el-input  class="te_input2 smallinput" v-model="ttl"></el-input
-            >天
+            <el-input
+              class="te_input2 smallinput"
+              v-model="ttl"
+              v-if="!hasUserInfo"
+              @input="only7($event)"
+            ></el-input
+            >
+            <el-input
+                    class="te_input2 smallinput"
+                    v-model="ttl"
+                    v-else
+            ></el-input
+            >
+            天
           </label>
         </div>
       </div>
@@ -203,6 +215,7 @@
       width="30%"
       center
     >
+      <i class="el-icon-success"></i>
       <a :href="urlToLoginEmail">点我去登录邮箱</a>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="emailDialogVisible = false"
@@ -291,7 +304,7 @@ export default {
       },
 
       input: "",
-      ttl: "7",
+      ttl: 7,
       cusID: "",
 
       userUrlRecord: [],
@@ -381,13 +394,16 @@ export default {
       }
       let that = this;
       let qs = require("qs");
-
       if (!this.hasUserInfo) {
+        if (this.$data.ttl > 7) {
+          this.$data.ttl = 7;
+        }
         this.$axios
           .post(
             "/createURL",
             qs.stringify({
-              original_url: this.$data.input
+              original_url: this.$data.input,
+              id_ttl: this.$data.ttl
             })
           )
           .then(function(response) {
@@ -405,7 +421,7 @@ export default {
             qs.stringify({
               token: this.userToken,
               original_url: this.$data.input,
-              resourse_id: this.$data.cusID,
+              resource_id: this.$data.cusID,
               id_ttl: this.$data.ttl
             })
           )
@@ -439,7 +455,7 @@ export default {
         })
         .then(function(response) {
           console.log(response.data);
-          if (response.data.code === 200) {
+          if (response.data.code === "ok") {
             that.dialogRegisterVisible = false;
             that.emailDialogVisible = true;
             that.urlToLoginEmail = response.data.data.urlToLoginEmail;
@@ -471,7 +487,7 @@ export default {
         )
         .then(function(response) {
           //console.log(response.data.data);
-          if (response.data.data.code === "209") {
+          if (response.data.data.code === "ok") {
             that.userToken = response.data.data.token;
             //console.log(that.userToken)
             that.$axios
@@ -491,11 +507,9 @@ export default {
                     message: "欢迎回来！ " + response.data.data.username,
                     type: "success"
                   });
-                } else if (response.data.data.code === "205") {
+                } else {
                   that.$message({
-                    message:
-                      "未验证邮箱，您的邮箱登录地址：" +
-                      response.data.data.urlToLoginEmail,
+                    message: response.data.data.msg,
                     type: "error"
                   });
                 }
@@ -533,7 +547,17 @@ export default {
         }
       }
     },
-
+    only7(e) {
+      console.log(e % 10);
+      if ((e % 10) <= 7 && (e % 10) >= 1) {
+        this.ttl = e % 10;
+      }
+      if (this.ttl > 7) {
+        this.ttl = 7;
+      } else if (this.ttl < 1) {
+        this.ttl = 1;
+      }
+    },
     getUserUrlRecord() {
       let that = this;
       if (that.currentPage * that.pageSize < that.userInfo.urlnum) {
@@ -551,7 +575,7 @@ export default {
             this.pageSize
         )
         .then(function(response) {
-          if (response.data.code === 200) {
+          if (response.data.data.code === "ok") {
             //that.userUrlRecord = response.data.data;
             let buffer = response.data.data;
             for (let i in buffer) {
@@ -561,7 +585,7 @@ export default {
             that.userUrlRecord = that.userUrlRecord.concat(buffer);
           } else {
             that.$message({
-              message: "获取用户记录失败！",
+              message: response.data.data.msg,
               type: "error"
             });
           }
@@ -672,6 +696,6 @@ html,
   width: auto;
 }
 #regvalidatecodeImg {
-  border-radius: 10px;
+  border-radius: 5px;
 }
 </style>

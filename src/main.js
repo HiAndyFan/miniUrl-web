@@ -16,7 +16,8 @@ Vue.use(qs);
 // Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 //设置baseURL
-axios.defaults.baseURL = "http://121.37.5.27/";
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "development" ? "http://121.37.5.27/" : "";
 //设置token值
 //axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
 //请求头
