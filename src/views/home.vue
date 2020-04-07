@@ -212,9 +212,12 @@
       :visible.sync="emailDialogVisible"
       width="30%"
       center
+      id="regmsgdialog"
     >
-      <i class="el-icon-success"></i>
-      <a :href="urlToLoginEmail">点我去登录邮箱</a>
+      <div id="regmsg">
+        <img src="@/assets/home/成功.png" width="150px" height="150px" />
+        <a :href="urlToLoginEmail">点我去登录邮箱</a>
+      </div>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="emailDialogVisible = false"
           >确 定</el-button
@@ -274,7 +277,6 @@
 
 <script>
 import elTableInfiniteScroll from "el-table-infinite-scroll";
-import {formatDate} from '../components/date';
 export default {
   directives: {
     "el-table-infinite-scroll": elTableInfiniteScroll
@@ -597,7 +599,7 @@ export default {
               for (let i in buffer) {
                 buffer[i].resourseId =
                   window.location.host + "/" + buffer[i].resourseId;
-                buffer[i].createdTime=buffer[i].createdTime.substring(0, 10)
+                buffer[i].createdTime = buffer[i].createdTime.substring(0, 10);
               }
               that.userUrlRecord = that.userUrlRecord.concat(buffer);
             } else {
@@ -627,7 +629,7 @@ export default {
               for (let i in buffer) {
                 buffer[i].resourseId =
                   window.location.host + "/" + buffer[i].resourseId;
-                buffer[i].createdTime=buffer[i].createdTime.substring(0, 10)
+                buffer[i].createdTime = buffer[i].createdTime.substring(0, 10);
               }
               that.userUrlRecord = that.userUrlRecord.concat(buffer);
             } else {
@@ -747,6 +749,14 @@ html,
   border-radius: 5px;
 }
 #userRecordDrawerTitle {
+  text-align: center;
+}
+
+#regmsg {
+  width: 150px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
   text-align: center;
 }
 </style>
