@@ -9,29 +9,45 @@
         <p class="lh"><a href="/">MiniURL</a></p>
       </div>
       <div id="footer-right">
-        <p class="lh"><a>“</a><a id="jinrishici-sentence" href="http://www.jinrishici.com" target="view_window">正在加载今日诗词....</a><a>”</a></p>
+        <p class="lh">
+          <a>“</a
+          ><a
+            id="jinrishici-sentence"
+            href="http://www.jinrishici.com"
+            target="view_window"
+            >正在加载今日诗词....</a
+          ><a>”</a>
+        </p>
         <p class="lh"><a href="#"> 粤ICP备15111xxx号-1</a></p>
       </div>
     </footer>
   </div>
 </template>
+<script>
+import elTableInfiniteScroll from "el-table-infinite-scroll";
 
+export default {
+  name: "App",
+  created() {
+    document.title = "MiniURL - " + window.location.host;
+  }
+};
+</script>
 <style lang="css">
 html,
 body,
 #app {
   height: 100%;
 }
-#navigation{
-
+#navigation {
 }
 .header-container {
- }
-.site-header{
+}
+.site-header {
   height: 40px;
   background: linear-gradient(rgba(0, 0, 0, 0.23), transparent);
   width: 100%;
-  position: absolute;  /*不加和404冲突*/
+  position: absolute; /*不加和404冲突*/
   /*display: flex;*/
   /*justify-content: space-between;*/
   /*flex-direction: row;*/
@@ -66,7 +82,7 @@ body,
   align-items: center;
   display: flex;
   justify-content: space-between;
-  flex-direction:row;
+  flex-direction: row;
 }
 #site-footer a {
   font-size: 14px;
@@ -82,9 +98,9 @@ body,
   margin: 5px;
   display: inline-block;
 }
-#footer-left{
+#footer-left {
 }
-#footer-right{
+#footer-right {
 }
 .lh {
   display: inline-block;
