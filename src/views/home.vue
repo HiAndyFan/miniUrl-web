@@ -42,6 +42,7 @@
       </div>
       <el-dialog
         title="登录"
+        :close-on-click-modal=false
         :visible.sync="dialogLoginVisible"
         width="380px"
         center
@@ -72,6 +73,7 @@
       </el-dialog>
       <el-dialog
         title="注册"
+        :close-on-click-modal=false
         :visible.sync="dialogRegisterVisible"
         width="380px"
         center
