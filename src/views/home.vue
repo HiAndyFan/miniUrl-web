@@ -113,7 +113,6 @@
           </el-form-item>
           <el-form-item label="验证码" prop="regvalidatecode">
             <el-input
-              type="password"
               v-model="form.regvalidatecode"
               autocomplete="off"
             ></el-input>
